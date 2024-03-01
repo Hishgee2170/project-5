@@ -4,9 +4,11 @@ import AskQuestion from "./block/hava_a_account";
 import HeaderTexts from "./block/login_signup_headerAndText";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 export default function login() {
-  const API_DATABASE = "http://localhost:2000/";
-  const [unen, setUnen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const API_DATABASE = "http://localhost:2000/user";
+  const { route, push } = useRouter();
   const [account, setAccount] = useState({
     email: "",
     password: "",
@@ -33,7 +35,8 @@ export default function login() {
   function checkAccount() {
     datas.map((user) => {
       if (user.email === account.email && user.password === account.password) {
-        setUnen(true);
+        console.log("hello");
+        push("./components/SignUpLoading");
       }
     });
   }
@@ -57,29 +60,30 @@ export default function login() {
               placeholder="Email"
               type="text"
             />
-            <input
-              value={account.password}
-              onChange={(event) =>
-                setAccount({ ...account, password: event.target.value })
-              }
-              className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
-              placeholder="Password"
-              type="text"
-            />
-            {unen ? (
-              <Link href="./components/SignUpLoading">
-                <button className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]">
-                  Login
-                </button>
-              </Link>
-            ) : (
-              <button
-                onClick={checkAccount}
-                className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]"
+            <div className="flex gap-[5px]">
+              <input
+                value={account.password}
+                onChange={(event) =>
+                  setAccount({ ...account, password: event.target.value })
+                }
+                className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
+                placeholder="Password"
+                type={showPassword ? "text" : "password"}
+              />
+              <div
+                className="flex justify-center items-center hover:cursor-pointer hover:bg-slate-100"
+                onClick={() => setShowPassword(!showPassword)}
               >
-                Login
-              </button>
-            )}
+                {showPassword ? "Hide" : "Show"}
+              </div>
+            </div>
+
+            <button
+              onClick={checkAccount}
+              className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]"
+            >
+              Login
+            </button>
           </div>
           <div className="flex items-center">
             <AskQuestion askQuastionText={"Don’t have account?"} />

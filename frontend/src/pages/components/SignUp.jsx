@@ -4,11 +4,16 @@ import AskQuestion from "./block/hava_a_account";
 import HeaderTexts from "./block/login_signup_headerAndText";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { newUserDataCheck } from "@/pages/user/signUpUserDataCheck";
 export default function signup() {
+  const { route, push } = useRouter();
   const checker = newUserDataCheck;
-  const API_DATABASE = "http://localhost:2000/";
+  const API_DATABASE = "http://localhost:2000/user";
   const [datas, setDatas] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
+
   const [newAccount, setNewAccount] = useState({
     name: "",
     email: "",
@@ -31,14 +36,13 @@ export default function signup() {
       console.log("Error:", error);
     }
   };
-  const [unen, setUnen] = useState(false);
   const addAccount = async () => {
     console.log("New account:", newAccount);
     let isValid = false;
     isValid = await checker.isValid(newAccount);
     if (isValid && newAccount.password === newAccount.rePassword) {
       createAccount();
-      setUnen(true);
+      push("./components/SignUpLoading");
     } else {
       console.log("Invalid data or passwords do not match");
     }
@@ -73,39 +77,53 @@ export default function signup() {
               placeholder="Email"
               type="text"
             />
-            <input
-              value={newAccount.password}
-              onChange={(event) =>
-                setNewAccount({ ...newAccount, password: event.target.value })
-              }
-              className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
-              placeholder="Password"
-              type="text"
-            />
-            <input
-              value={newAccount.rePassword}
-              onChange={(event) =>
-                setNewAccount({ ...newAccount, rePassword: event.target.value })
-              }
-              className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
-              placeholder="Re-Password"
-              type="text"
-            />
-
-            {unen ? (
-              <Link href="./SignUpLoading">
-                <button className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]">
-                  Sign up
-                </button>
-              </Link>
-            ) : (
-              <button
-                onClick={addAccount}
-                className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]"
+            <div className="flex gap-[5px]">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={newAccount.password}
+                onChange={(event) =>
+                  setNewAccount({
+                    ...newAccount,
+                    password: event.target.value,
+                  })
+                }
+                className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
+                placeholder="Re-Password"
+              />
+              <div
+                className="flex justify-center items-center hover:cursor-pointer hover:bg-slate-100"
+                onClick={() => setShowPassword(!showPassword)}
               >
-                Sign up
-              </button>
-            )}
+                {showPassword ? "Hide" : "Show"}
+              </div>
+            </div>
+            <div className="flex gap-[5px]">
+              <input
+                type={showRePassword ? "text" : "password"}
+                value={newAccount.rePassword}
+                onChange={(event) =>
+                  setNewAccount({
+                    ...newAccount,
+                    rePassword: event.target.value,
+                  })
+                }
+                className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
+                placeholder="Re-Password"
+              />
+              <div
+                className="flex justify-center items-center hover:cursor-pointer hover:bg-slate-100"
+                onClick={() => setShowRePassword(!showRePassword)}
+              >
+                {showRePassword ? "Hide" : "Show"}
+              </div>
+            </div>
+
+            <button
+              onClick={addAccount}
+              className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]"
+            >
+              Sign up
+            </button>
           </div>
           <div className="flex items-center">
             <AskQuestion askQuastionText={"Already have account?"} />

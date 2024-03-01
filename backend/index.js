@@ -7,11 +7,11 @@ app.use(cors());
 app.use(express.json());
 let datas = [];
 const DATA_BASE = "dataBase.json";
-app.get("/", (request, response) => {
+app.get("/user", (request, response) => {
   datas = JSON.parse(fs.readFileSync(`${DATA_BASE}`));
   response.send(datas);
 });
-app.post("/", (request, response) => {
+app.post("/user", (request, response) => {
   datas = JSON.parse(fs.readFileSync(`${DATA_BASE}`));
   const { name, email, password } = request.body;
   const id = uuid();
