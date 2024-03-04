@@ -5,7 +5,7 @@ export default function SignUpLoading() {
       <Logo />
       <div className="flex flex-col items-center">
         <div className="w-[32px] h-[32px] rounded-[50%] border-[3px]"></div>
-        <p>loading...</p>
+        <p>Loading...</p>
       </div>
     </div>
   );
