@@ -6,7 +6,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 let datas = [];
-const DATA_BASE = "dataBase.json";
 app.get("/user", async (request, response) => {
   datas = await sql`SELECT * FROM users`;
   response.send(datas);
