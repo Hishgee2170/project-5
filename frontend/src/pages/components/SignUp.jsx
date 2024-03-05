@@ -42,7 +42,7 @@ export default function signup() {
     isValid = await checker.isValid(newAccount);
     if (isValid && newAccount.password === newAccount.rePassword) {
       createAccount();
-      push("./components/SignUpLoading");
+      push("./SignUpLoading");
     } else {
       console.log("Invalid data or passwords do not match");
     }

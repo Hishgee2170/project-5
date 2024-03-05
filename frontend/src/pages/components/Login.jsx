@@ -5,7 +5,7 @@ import HeaderTexts from "./block/login_signup_headerAndText";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-export default function login() {
+export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const API_DATABASE = "http://localhost:2000/user";
   const { route, push } = useRouter();
