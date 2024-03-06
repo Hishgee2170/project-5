@@ -13,7 +13,9 @@ export default function signup() {
   const [datas, setDatas] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
-
+  const [matchPassword, setMatchPassword] = useState(true);
+  const [wrongData, setWrongData] = useState(true);
+  const [emailRevise, setEmailRevise] = useState(true);
   const [newAccount, setNewAccount] = useState({
     name: "",
     email: "",
@@ -31,7 +33,12 @@ export default function signup() {
         body: JSON.stringify(newAccount),
       });
       const newData = await response.json();
-      setDatas(newData);
+      setEmailRevise(newData.jumpStatus);
+      console.log("newdata:", newData);
+      if (newData.jumpStatus) {
+        push("./SignUpLoading");
+        setDatas(newData);
+      }
     } catch (error) {
       console.log("Error:", error);
     }
@@ -40,11 +47,17 @@ export default function signup() {
     console.log("New account:", newAccount);
     let isValid = false;
     isValid = await checker.isValid(newAccount);
-    if (isValid && newAccount.password === newAccount.rePassword) {
-      createAccount();
-      push("./SignUpLoading");
+    if (isValid) {
+      if (newAccount.password === newAccount.rePassword) {
+        createAccount();
+        setMatchPassword(true);
+      } else {
+        setMatchPassword(false);
+        console.log("passwords do not match");
+      }
     } else {
-      console.log("Invalid data or passwords do not match");
+      setWrongData(false);
+      console.log("Invalid data ");
     }
   };
 
@@ -59,6 +72,12 @@ export default function signup() {
           />
           <div className="flex flex-col  items-center "></div>
           <div className="flex flex-col gap-[16px]">
+            <div
+              style={wrongData ? { display: "none" } : { display: "flex" }}
+              className="text-red-500 text-[20px]"
+            >
+              Wrong data
+            </div>
             <input
               value={newAccount.name}
               onChange={(event) =>
@@ -68,15 +87,23 @@ export default function signup() {
               placeholder="Name"
               type="text"
             />
-            <input
-              value={newAccount.email}
-              onChange={(event) =>
-                setNewAccount({ ...newAccount, email: event.target.value })
-              }
-              className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
-              placeholder="Email"
-              type="text"
-            />
+            <div className="flex flex-col">
+              <input
+                value={newAccount.email}
+                onChange={(event) =>
+                  setNewAccount({ ...newAccount, email: event.target.value })
+                }
+                className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
+                placeholder="Email"
+                type="text"
+              />
+              <div
+                style={emailRevise ? { display: "none" } : { display: "flex" }}
+                className="text-red-500"
+              >
+                Email already registred
+              </div>
+            </div>
             <div className="flex gap-[5px]">
               <input
                 type={showPassword ? "text" : "password"}
@@ -98,18 +125,29 @@ export default function signup() {
               </div>
             </div>
             <div className="flex gap-[5px]">
-              <input
-                type={showRePassword ? "text" : "password"}
-                value={newAccount.rePassword}
-                onChange={(event) =>
-                  setNewAccount({
-                    ...newAccount,
-                    rePassword: event.target.value,
-                  })
-                }
-                className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
-                placeholder="Re-Password"
-              />
+              <div>
+                <input
+                  type={showRePassword ? "text" : "password"}
+                  value={newAccount.rePassword}
+                  onChange={(event) =>
+                    setNewAccount({
+                      ...newAccount,
+                      rePassword: event.target.value,
+                    })
+                  }
+                  className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
+                  placeholder="Re-Password"
+                />
+                <div
+                  style={
+                    matchPassword ? { display: "none" } : { display: "flex" }
+                  }
+                  className="text-red-500"
+                >
+                  Password not matched
+                </div>
+              </div>
+
               <div
                 className="flex justify-center items-center hover:cursor-pointer hover:bg-slate-100"
                 onClick={() => setShowRePassword(!showRePassword)}
