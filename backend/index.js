@@ -30,7 +30,7 @@ app.post("/user", async (request, response) => {
     if (existingUser) {
       return response.status(409).send({ jumpStatus: false });
     } else {
-      return await sql`INSERT INTO users(id, name, email, password) VALUES(${newUser.id}, ${newUser.name}, ${newUser.email}, ${newUser.password})`;
+      await sql`INSERT INTO users(id, name, email, password) VALUES(${newUser.id}, ${newUser.name}, ${newUser.email}, ${newUser.password})`;
       datas.push(newUser);
       response.status(201).send({ jumpStatus: true }, datas);
     }

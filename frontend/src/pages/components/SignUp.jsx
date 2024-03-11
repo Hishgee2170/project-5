@@ -10,7 +10,6 @@ export default function signup() {
   const { route, push } = useRouter();
   const checker = newUserDataCheck;
   const API_DATABASE = "http://localhost:2000/user";
-  const [datas, setDatas] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   const [matchPassword, setMatchPassword] = useState(true);
@@ -37,7 +36,6 @@ export default function signup() {
       console.log("newdata:", newData);
       if (newData.jumpStatus) {
         push("./SignUpLoading");
-        setDatas(newData);
       }
     } catch (error) {
       console.log("Error:", error);

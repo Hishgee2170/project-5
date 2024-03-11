@@ -14,5 +14,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("daisyui"),
+    // Add other PostCSS plugins here if needed
+  ],
 };
