@@ -1,15 +1,15 @@
-import Signup from "./block/signup_login_Button";
+import SignupToLogin from "./block/signup_login_Button";
 import Logo from "./block/logo";
 import AskQuestion from "./block/hava_a_account";
-import HeaderTexts from "./block/login_signup_headerAndText";
 import Link from "next/link";
+import HeaderTexts from "./block/login_signup_headerAndText";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { newUserDataCheck } from "@/pages/user/signUpUserDataCheck";
 export default function signup() {
   const { route, push } = useRouter();
   const checker = newUserDataCheck;
-  const API_DATABASE = "http://localhost:2000/user";
+  const API_DATABASE = "http://localhost:2000/signUp";
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   const [matchPassword, setMatchPassword] = useState(true);
@@ -32,10 +32,11 @@ export default function signup() {
         body: JSON.stringify(newAccount),
       });
       const newData = await response.json();
-      setEmailRevise(newData.jumpStatus);
-      console.log("newdata:", newData);
-      if (newData.jumpStatus) {
-        push("./SignUpLoading");
+      console.log("newData:", newData);
+      if (newData) {
+        push("./signUpSelectValut");
+      } else {
+        setEmailRevise(newData);
       }
     } catch (error) {
       console.log("Error:", error);
@@ -164,7 +165,7 @@ export default function signup() {
           <div className="flex items-center">
             <AskQuestion askQuastionText={"Already have account?"} />
             <Link href="/">
-              <Signup signup_login_Button_text={"Login"} />
+              <SignupToLogin signup_login_Button_text={"Login"} />
             </Link>
           </div>
         </div>

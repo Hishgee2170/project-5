@@ -7,39 +7,30 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const API_DATABASE = "http://localhost:2000/user";
+  const API_DATABASE = "http://localhost:2000/signIn";
   const { route, push } = useRouter();
   const [account, setAccount] = useState({
     email: "",
     password: "",
   });
-  const [datas, setDatas] = useState([]);
   const checkUser = async () => {
     try {
       const response = await fetch(`${API_DATABASE}`, {
-        method: "GET",
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(account),
       });
       const newData = await response.json();
-      setDatas(newData);
+      console.log("newData:", newData);
+      if (newData) push("./components/SignUpLoading");
     } catch (error) {
       console.log("Error:", error);
     }
   };
-  useEffect(() => {
-    checkUser();
-  }, []);
-  function checkAccount() {
-    datas.map((user) => {
-      if (user.email === account.email && user.password === account.password) {
-        console.log("hello");
-        push("./components/SignUpLoading");
-      }
-    });
-  }
+
   return (
     <div className="flex ">
       <div className="w-[50%] h-[100vh] bg-[#fff] flex justify-center items-center ">
@@ -79,7 +70,7 @@ export default function Login() {
             </div>
 
             <button
-              onClick={checkAccount}
+              onClick={checkUser}
               className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]"
             >
               Login
@@ -87,7 +78,7 @@ export default function Login() {
           </div>
           <div className="flex items-center">
             <AskQuestion askQuastionText={"Don’t have account?"} />
-            <Link href="./components/SignUp">
+            <Link href="./components/signUp">
               <Signup signup_login_Button_text={"Sign up"} />
             </Link>
           </div>
