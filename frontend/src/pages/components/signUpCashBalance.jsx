@@ -46,7 +46,7 @@ export default function signUpCashBalance() {
         <div>
           <button
             onClick={() => {
-              push("./signUpFinish");
+              push("./SignUpFinish");
             }}
             className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]"
           >

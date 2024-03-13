@@ -5,10 +5,10 @@ import Link from "next/link";
 import HeaderTexts from "./block/login_signup_headerAndText";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { newUserDataCheck } from "@/pages/user/signUpUserDataCheck";
+import { SignUpUserDataCheck } from "@/pages/components/user/SignUpUserDataCheck";
 export default function signup() {
   const { route, push } = useRouter();
-  const checker = newUserDataCheck;
+  const checker = SignUpUserDataCheck;
   const API_DATABASE = "http://localhost:2000/signUp";
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);

@@ -48,7 +48,7 @@ export default function SignUpSelectValut() {
         <div>
           <button
             onClick={() => {
-              push("./signUpCashBalance");
+              push("./SignUpCashBalance");
             }}
             className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]"
           >

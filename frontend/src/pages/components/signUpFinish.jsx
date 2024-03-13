@@ -42,7 +42,7 @@ export default function signUpFinish() {
         <div>
           <button
             onClick={() => {
-              push("./signUpLoading");
+              push("./SignUpLoading");
             }}
             className="bg-[#0166FF] w-[287px] h-[48px] rounded-[20px] text-[#fff]"
           >
