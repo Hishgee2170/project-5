@@ -5,8 +5,9 @@ import Link from "next/link";
 import HeaderTexts from "./block/login_signup_headerAndText";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { SignUpUserDataCheck } from "@/pages/components/user/SignUpUserDataCheck";
-export default function signup() {
+import { SignUpUserDataCheck } from "@/components/user/SignUpUserDataCheck";
+
+export default function SignUpComponent() {
   const { route, push } = useRouter();
   const checker = SignUpUserDataCheck;
   const API_DATABASE = "http://localhost:2000/signUp";
@@ -114,7 +115,7 @@ export default function signup() {
                   })
                 }
                 className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
-                placeholder="Re-Password"
+                placeholder="Password"
               />
               <div
                 className="flex justify-center items-center hover:cursor-pointer hover:bg-slate-100"
@@ -130,12 +131,12 @@ export default function signup() {
                   value={newAccount.rePassword}
                   onChange={(event) =>
                     setNewAccount({
-                      ...newAccount,
+                      ...newAccount, 
                       rePassword: event.target.value,
                     })
                   }
                   className="w-[287px] h-[48px] px-[20px] rounded-lg border-[1px] border-[#D1D5DB] bg-[#F3F4F6]"
-                  placeholder="Re-Password"
+                  placeholder="Repeat-Password"
                 />
                 <div
                   style={

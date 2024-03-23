@@ -78,7 +78,7 @@ export default function Login() {
           </div>
           <div className="flex items-center">
             <AskQuestion askQuastionText={"Don’t have account?"} />
-            <Link href="./components/SignUp">
+            <Link href="sign-up">
               <Signup signup_login_Button_text={"Sign up"} />
             </Link>
           </div>
